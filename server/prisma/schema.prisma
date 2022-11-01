@@ -9,3 +9,12 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Pool {
+  // o cuid ocupa menos espaço do que o uuid
+  id        String   @id @default(cuid())
+  title     String
+  // o @unique indica que o campo code é unico
+  code      String   @unique
+  createdAt DateTime @default(now())
+}
