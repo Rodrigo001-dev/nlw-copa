@@ -9,6 +9,10 @@ module.exports = {
         sans: 'Roboto, sans-serif'
       },
 
+      backgroundImage: {
+        app: 'url(/app-bg.png)'
+      },
+
       colors: {
         ignite: {
           500: '#129E57',
