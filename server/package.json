@@ -6,6 +6,9 @@
     "dev": "tsx watch src/server.ts"
   },
   "license": "MIT",
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^9.1.7",
     "prisma": "^4.5.0",
