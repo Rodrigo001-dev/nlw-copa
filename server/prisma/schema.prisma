@@ -22,4 +22,69 @@ model Pool {
   // o @unique indica que o campo code é unico
   code      String   @unique
   createdAt DateTime @default(now())
+  ownerId   String?
+
+  participants Participant[]
+  // o Pool sempre vai ter um owner(dono)
+  owner        User?         @relation(fields: [ownerId], references: [id])
+}
+
+// por conta do relacionamento muitos para muitos da tabela Poll(Bolão) e a 
+// tabela User(Usuário) vai ser preciso uma tabela para armazenar o
+// relacionamento(Participant)
+model Participant {
+  id     String @id @default(cuid())
+  userId String
+  poolId String
+
+  // um Participant vai ter varios guesses(palpites)
+  guesses Guess[]
+  user    User    @relation(fields: [userId], references: [id])
+  pool    Pool    @relation(fields: [poolId], references: [id])
+
+  // criei um indice unico falando que nesse tabela se eu procurar por um
+  // usuário específico(userId) e por um bolão específico(poolId) eu sempre vou
+  // ter no maximo 1 registro porque essas informações são unicas, eu nunca vou
+  // ter isso repetido
+  @@unique([userId, poolId])
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  // o ? depois da Sting quer dizer que o campo pode ser nulo no banco de dados
+  avatarUrl String?
+  createdAt DateTime @default(now())
+
+  // o User vai poder fazer parte de varios Pools(bolões) através da tabela
+  // Participant(tabela pivo)
+  // o usuraio esta participando em(participatingAt) varios Pools
+  participatingAt Participant[]
+  // ownPools são os bolões que o User é dono 
+  ownPools        Pool[]
+}
+
+model Game {
+  id                    String   @id @default(cuid())
+  date                  DateTime
+  firtTeamCountryCode   String
+  secondTeamCountryCode String
+
+  // um jogo pode ter varios guesses(palpites)
+  guesses Guess[]
+}
+
+model Guess {
+  id               String   @id @default(cuid())
+  firtTeamPoints   Int
+  secondTeamPoints Int
+  createdAt        DateTime @default(now())
+  gameId           String
+  participantId    String
+
+  // o Guess(palpite) sempre vai ser feito por um participante
+  participant Participant @relation(fields: [participantId], references: [id])
+  // um Guess(palpite) sempre vai estar associado a um jogo
+  game        Game        @relation(fields: [gameId], references: [id])
 }

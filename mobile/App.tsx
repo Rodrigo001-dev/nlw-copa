@@ -1,4 +1,4 @@
-import { NativeBaseProvider, Center, Text } from 'native-base';
+import { NativeBaseProvider, Center, StatusBar } from 'native-base';
 import { 
   useFonts, 
   Roboto_400Regular, 
@@ -18,6 +18,11 @@ export default function App() {
   return (
     <NativeBaseProvider theme={THEME}>
       <Center flex={1} bgColor="gray.900">
+        <StatusBar 
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent
+        />
         { fontsLoaded ? <SignIn /> : <Loading /> }
       </Center>
     </NativeBaseProvider>
