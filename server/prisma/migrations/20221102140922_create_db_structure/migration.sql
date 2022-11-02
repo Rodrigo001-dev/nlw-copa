@@ -20,14 +20,14 @@ CREATE TABLE "User" (
 CREATE TABLE "Game" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "date" DATETIME NOT NULL,
-    "firtTeamCountryCode" TEXT NOT NULL,
+    "firstTeamCountryCode" TEXT NOT NULL,
     "secondTeamCountryCode" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "Guess" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "firtTeamPoints" INTEGER NOT NULL,
+    "firstTeamPoints" INTEGER NOT NULL,
     "secondTeamPoints" INTEGER NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "gameId" TEXT NOT NULL,

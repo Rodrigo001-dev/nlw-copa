@@ -68,7 +68,7 @@ model User {
 model Game {
   id                    String   @id @default(cuid())
   date                  DateTime
-  firtTeamCountryCode   String
+  firstTeamCountryCode  String
   secondTeamCountryCode String
 
   // um jogo pode ter varios guesses(palpites)
@@ -77,7 +77,7 @@ model Game {
 
 model Guess {
   id               String   @id @default(cuid())
-  firtTeamPoints   Int
+  firstTeamPoints  Int
   secondTeamPoints Int
   createdAt        DateTime @default(now())
   gameId           String
