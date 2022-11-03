@@ -53,6 +53,7 @@ model User {
   id        String   @id @default(cuid())
   name      String
   email     String   @unique
+  googleId  String?  @unique
   // o ? depois da Sting quer dizer que o campo pode ser nulo no banco de dados
   avatarUrl String?
   createdAt DateTime @default(now())
