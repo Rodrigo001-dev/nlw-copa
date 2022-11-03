@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { GetStaticProps } from 'next';
 import { FormEvent, useState } from 'react';
 
 import appPreviewImg from '../assets/app-nlw-copa-preview.png';
@@ -105,7 +106,7 @@ export default function Home(props: HomeProps) {
   )
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   // o Primise.all é uma forma de fazer uma concorrência entre duas ou mais
   // Promises para que elas executem em paralelo
   const [
@@ -123,6 +124,7 @@ export const getServerSideProps = async () => {
       poolCount: poolCountResponse.data.count,
       guessCount: guessCountResponse.data.count,
       userCount: userCountResponse.data.count,
-    }
+    },
+    revalidate: 60 * 30, // 30 minutes
   };
 };
