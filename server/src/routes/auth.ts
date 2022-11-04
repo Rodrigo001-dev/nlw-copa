@@ -4,6 +4,12 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma";
 
 export async function authRoutes(fastify: FastifyInstance) {
+  fastify.get('/me', async (request) => {
+    await request.jwtVerify();
+
+    return { user: request.user };
+  });
+
   fastify.post('/users', async (request) => {
     const createUserBody = z.object({
       access_token: z.string(),
@@ -29,6 +35,35 @@ export async function authRoutes(fastify: FastifyInstance) {
 
     const userInfo = userInfoSchema.parse(userData);
 
-    return { userInfo };
+    let user = await prisma.user.findUnique({
+      where: {
+        googleId: userInfo.id
+      }
+    });
+
+    // se o usuário não existir quer dizer que ele nunca fez login na nossa
+    // aplicação e por isso eu vou criar um usuário e vou salvar em cima da
+    // própria variável(user)
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          googleId: userInfo.id,
+          name: userInfo.name,
+          email: userInfo.email,
+          avatarUrl: userInfo.picture
+        }
+      });
+    };
+
+    const token = fastify.jwt.sign({
+      name: user.name,
+      avatarUrl: user.avatarUrl
+    }, {
+      // sub representa quem que gerou o token
+      sub: user.id,
+      expiresIn: '7 days',
+    });
+
+    return { token };
   });
 };
