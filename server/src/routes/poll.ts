@@ -22,12 +22,31 @@ export async function pollRoutes(fastify: FastifyInstance) {
     const generate = new ShortUniqueId({ length: 6 });
     const code = String(generate()).toUpperCase();
 
-    await prisma.pool.create({
-      data: {
-        title,
-        code
-      }
-    });
+    let ownerId = null;
+
+    try {
+      // se esse codigo executar, quer dizer que eu tenho um usúario autenticado
+      await request.jwtVerify();
+
+      // se eu tenho o usuário autenticado, eu crio o bolão onde o ownerId vem
+      // de dentro de request.user.sub o sub é o id do usuário que está guardado
+      // dentro do token
+      await prisma.pool.create({
+        data: {
+          title,
+          code,
+          ownerId: request.user.sub
+        }
+      });
+    } catch {
+      // se eu não tenho usuário autenticado, eu vou criar o bolão sem o ownerId
+      await prisma.pool.create({
+        data: {
+          title,
+          code
+        }
+      });
+    }
 
     return response.status(201).send({ code });
   });
