@@ -88,4 +88,6 @@ model Guess {
   participant Participant @relation(fields: [participantId], references: [id])
   // um Guess(palpite) sempre vai estar associado a um jogo
   game        Game        @relation(fields: [gameId], references: [id])
+
+  @@unique([participantId, gameId])
 }
