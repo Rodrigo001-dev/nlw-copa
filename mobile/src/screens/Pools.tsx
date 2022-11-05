@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { VStack, Icon, useToast, FlatList } from "native-base";
 import { Octicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { api } from "../services/api";
 
@@ -15,7 +15,7 @@ export function Pools() {
   const [isLoading, setIsLoading] = useState(true);
   const [pools, setPools] = useState<PoolCardProps[]>([]);
 
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
   const toast = useToast();
 
   async function fetchPools() {
@@ -37,9 +37,13 @@ export function Pools() {
     }
   };
 
-  useEffect(() => {
+  // o useFocusEffect vai executar a função sempre que a função receber o foco
+  // ou seja, sempre que ela estiver em tela(em foco)
+  // o useCallback vai garantir que essa função seja executada multiplas vezes
+  // porque ele anota a referencia dessa função
+  useFocusEffect(useCallback(() => {
     fetchPools();
-  }, []);
+  }, []));
 
   return (
     <VStack flex={1} bg="gray.900">
@@ -48,19 +52,27 @@ export function Pools() {
         <Button 
           title="BUSCAR BOLÃO POR CÓDIGO"
           leftIcon={<Icon as={Octicons} name="search" color="black" size="md" />}
-          onPress={() => navigation.navigate('find')}
+          onPress={() => navigate('find')}
         />
       </VStack>
 
-      <FlatList 
-        data={pools}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => <PoolCard data={item} />}
-        px={5}
-        showsVerticalScrollIndicator={false}
-        _contentContainerStyle={{ pb: 10 }}
-        ListEmptyComponent={() => <EmptyPoolList />}
-      />
+      {
+        isLoading ? <Loading /> :
+        <FlatList 
+          data={pools}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <PoolCard 
+              data={item} 
+              onPress={() => navigate('details', { id: item.id })}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          _contentContainerStyle={{ pb: 10 }}
+          ListEmptyComponent={() => <EmptyPoolList />}
+          px={5}
+        />
+      }
     </VStack>
   );
 };
