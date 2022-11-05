@@ -10,9 +10,10 @@ import { Find } from '../screens/Find';
 const { Navigator, Screen } = createBottomTabNavigator();
 
 export function AppRoutes() {
+
   const { colors, sizes } = useTheme();
 
-  const size = sizes[6];
+  const size = sizes[6]
 
   return (
     <Navigator screenOptions={{
@@ -32,28 +33,28 @@ export function AppRoutes() {
       }
     }}>
       <Screen 
-        name="new" 
+        name="new"
+
         component={New}
         options={{
           tabBarIcon: ({ color }) => <PlusCircle color={color} size={size} />,
-          tabBarLabel: 'Novo Bolão'
+          tabBarLabel: 'Novo bolão'
         }}
       />
-
       <Screen 
-        name="polls" 
+        name="pools"
         component={Pools}
         options={{
           tabBarIcon: ({ color }) => <SoccerBall color={color} size={size} />,
-          tabBarLabel: 'Meus Bolões'
+          tabBarLabel: 'Meus bolões'
         }}
       />
 
       <Screen 
-        name="find" 
+        name="find"
         component={Find}
         options={{ tabBarButton: () => null }}
       />
     </Navigator>
-  );
-};
+  )
+}
