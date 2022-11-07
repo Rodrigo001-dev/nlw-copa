@@ -1,6 +1,12 @@
 ## :page_with_curl: Projeto
 
-![NLW copa]()
+<h1 align="center">
+  <img alt="Bolão da Copa" title="#BolaoDaCopa" src="" width="380px" />
+</h1>
+
+![NLW copa print web]()
+
+![NLW copa gif mobile]()
 
 Aplicação feita na última NLW do ano de 2022 com o tema da Copa do mundo!
 Onde é possível criar um bolão e convidar alguém para participar.
