@@ -1,12 +1,12 @@
-## :page_with_curl: Projeto
-
 <h1 align="center">
-  <img alt="Bolão da Copa" title="#BolaoDaCopa" src="" width="380px" />
+  <img alt="Bolão da Copa" title="#BolaoDaCopa" src="https://github.com/Rodrigo001-dev/nlw-copa/blob/main/.github/logo.svg" width="380px" />
 </h1>
 
-![NLW copa print web]()
+## :page_with_curl: Projeto
 
-![NLW copa gif mobile]()
+![NLW copa print web](https://github.com/Rodrigo001-dev/nlw-copa/blob/main/.github/print-web.png)
+
+![NLW copa gif mobile](https://github.com/Rodrigo001-dev/nlw-copa/blob/main/.github/nlw-copa-gif.gif)
 
 Aplicação feita na última NLW do ano de 2022 com o tema da Copa do mundo!
 Onde é possível criar um bolão e convidar alguém para participar.
